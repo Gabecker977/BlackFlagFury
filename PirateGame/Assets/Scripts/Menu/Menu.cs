@@ -33,7 +33,7 @@ public class Menu : MonoBehaviour
         Mathf.FloorToInt(enemySpawnTimeSlider.value/60),Mathf.FloorToInt(enemySpawnTimeSlider.value%60));
         
     }
-    public void Play(){
-        SceneManager.LoadScene(sceneOnPlay);
-    }
+    public void Play()=>SceneManager.LoadScene(sceneOnPlay);
+    
+    public void Quit()=>Application.Quit();
 }

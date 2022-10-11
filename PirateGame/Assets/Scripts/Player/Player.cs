@@ -22,6 +22,7 @@ public class Player: MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
     private bool canShoot=true;
+    private bool canMove=true;
     [Header("Ship deterioration")]
     [SerializeField] private Sprite[] deterioration;
     [SerializeField] private GameObject deathEffect;
@@ -34,10 +35,11 @@ public class Player: MonoBehaviour
     {
         float translation = -Input.GetAxis("Vertical") * speed;
         float rotation = Input.GetAxis("Horizontal") * rotationSpeed;
-
+        if(canMove){
         rotation *= Time.deltaTime;
         rb.velocity=transform.up*translation;
         transform.Rotate(0, 0, -rotation);
+        }
 
         if(Input.GetKeyDown(KeyCode.Space)&&canShoot){
             SingleShoot();
@@ -48,7 +50,7 @@ public class Player: MonoBehaviour
         if(Input.GetKeyDown(KeyCode.G)&&canShoot){
             TripleShoot();
             canShoot=false;
-            StartCoroutine(Wait(1/singleShootfireRate));
+            StartCoroutine(Wait(1/tripleShootfireRate));
         }
 
         healthBar.fillAmount=life/100;
@@ -58,6 +60,7 @@ public class Player: MonoBehaviour
         sprite.sprite=deterioration[2];
         }
         else if(life<=0){
+            canMove=false;
          GameOver();
         }
     }

@@ -130,14 +130,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 1
   life: 100
-  target: {fileID: 0}
+  enemyTarget: {fileID: 0}
   speed: 1.88
-  accuracy: 5
+  accuracy: 10
   rotationSpeed: 0.1
   explosion: {fileID: 1211469227321258156, guid: bd086f42ff484a847a3765e5a89837d8, type: 3}
   bullet: {fileID: 1387982116616850813, guid: 710cb81489bb0074e8696612954d1c6a, type: 3}
   bulletSpawnPosition: {fileID: 3520833234087177713}
-  timeToShoot: 1
+  timeToShoot: 0.5
   deathEffect: {fileID: 4555914138231277035, guid: dade090969ea6534bbcbac29cb10e497, type: 3}
 --- !u!50 &3520833235653860426
 Rigidbody2D:

@@ -6495,7 +6495,7 @@ MonoBehaviour:
   tripleBullet: {fileID: 7576684675462694124, guid: 91f6db4e7a3d05746af55b706a8c95a5, type: 3}
   tripleShootTransformLeft: {fileID: 314880962}
   tripleShootTransformRight: {fileID: 1766342237}
-  tripleShootfireRate: 0.58
+  tripleShootfireRate: 0.3
   deterioration:
   - {fileID: 663576582327453874, guid: 29134928c2c61d048807a2a924ee0b8f, type: 3}
   - {fileID: -8184325175274631334, guid: 29134928c2c61d048807a2a924ee0b8f, type: 3}
