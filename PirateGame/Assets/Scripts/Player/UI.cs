@@ -10,12 +10,13 @@ public class UI : MonoBehaviour
     [SerializeField] private Text scoreText;
     [SerializeField] private GameObject finalScreen;
     public int score{get;set;}
-    float timer;
+    float timer=60f;
     void Awake(){
         Time.timeScale=1;
     }
     void Start()
     {
+        if(GameSetting.instance!=null)
         timer=GameSetting.instance.GetGameSessonTime();
     }
 
@@ -26,6 +27,7 @@ public class UI : MonoBehaviour
        timer-=Time.deltaTime;
        if(timer<=0){
         FinalScreen();
+        timer=0;
        }
     }
     private string TimeToString(float seconds){

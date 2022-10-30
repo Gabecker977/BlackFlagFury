@@ -59,7 +59,7 @@ public class Player: MonoBehaviour
         }else if(life<=30&life>0){
         sprite.sprite=deterioration[2];
         }
-        else if(life<=0){
+        else if(life<=0&&canMove){
             canMove=false;
          GameOver();
         }
@@ -77,6 +77,8 @@ public class Player: MonoBehaviour
         life-=damege;
     }
     private void GameOver(){
+        rb.velocity=Vector2.zero;
+        sprite.enabled=false;
         Instantiate(deathEffect,transform.position,transform.rotation);
         Destroy(gameObject,3f);
     }

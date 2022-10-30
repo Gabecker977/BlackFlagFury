@@ -5,7 +5,7 @@ using UnityEngine;
 public class Spawn : MonoBehaviour
 {   [SerializeField] private Transform[] spawns;
     [SerializeField] private GameObject enemy;
-    [SerializeField,Range(0f,60f)] private float timeToSpawn;
+    [SerializeField,Range(0f,60f)] private float timeToSpawn=10f;
     private bool canSpawn=true;
     // Start is called before the first frame update
     void Start()
