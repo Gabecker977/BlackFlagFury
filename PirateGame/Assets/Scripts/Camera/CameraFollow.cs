@@ -18,8 +18,12 @@ public class CameraFollow : MonoBehaviour
     }
 
    private void LateUpdate(){
-       Vector3 delta=Vector3.zero;
-
+       if(target!=null)
+        FollowTarget(target);
+       }
+   private void FollowTarget(Transform target){
+    Vector3 delta=Vector3.zero;
+     
        float deltaX= target.position.x-this.transform.position.x;
        if(deltaX > boundX||deltaX<-boundX){
         t=1;

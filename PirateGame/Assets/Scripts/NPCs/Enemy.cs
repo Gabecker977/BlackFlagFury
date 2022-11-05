@@ -16,6 +16,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Transform bulletSpawnPosition;
     [SerializeField,Range(0.1f,2f)] private float timeToShoot=1f;
     [SerializeField] private GameObject deathEffect;
+    [Header("Experience on death")]
+    [SerializeField,Range(5f,500f)] private float experience;
 
 
     private enum Type{Chaser, Shooter}
@@ -26,6 +28,7 @@ public class Enemy : MonoBehaviour
 	}
     private void Update() {
         if(life<=0){
+            enemyTarget.GetComponent<Player>().Level().AddExperience(experience);
             FindObjectOfType<UI>().score++;
             Instantiate(deathEffect,transform.position,transform.rotation);
             Destroy(gameObject);

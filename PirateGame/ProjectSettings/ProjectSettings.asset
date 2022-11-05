@@ -14,7 +14,7 @@ PlayerSettings:
   accelerometerFrequency: 60
   companyName: DefaultCompany
   productName: MKS_Project
-  defaultCursor: {fileID: 2800000, guid: c8d996f347193b2429b75a8f7ff28f3f, type: 3}
+  defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.09433961, g: 0.07876467, b: 0.08265842, a: 1}
   m_ShowUnitySplashScreen: 1
@@ -157,7 +157,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Standalone: com.DefaultCompany.MKSProject
+    Standalone: com.DefaultCompany.MKS-Project
   buildNumber:
     Standalone: 0
     iPhone: 0

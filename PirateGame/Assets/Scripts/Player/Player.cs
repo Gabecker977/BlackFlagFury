@@ -26,6 +26,14 @@ public class Player: MonoBehaviour
     [Header("Ship deterioration")]
     [SerializeField] private Sprite[] deterioration;
     [SerializeField] private GameObject deathEffect;
+    [Header("Level System")]
+    [SerializeField] private UI ui;
+    private LevelSystem levelSystem=new LevelSystem();
+    private void Awake() {
+       SetLevelSystem(levelSystem);
+       ui.SetLevelSystem(levelSystem);
+
+    }
     private void Start() {
         rb=GetComponent<Rigidbody2D>();
         healthBar=GameObject.FindGameObjectWithTag("HealthBar").GetComponent<Image>();
@@ -64,6 +72,14 @@ public class Player: MonoBehaviour
          GameOver();
         }
     }
+    private void SetLevelSystem(LevelSystem levelSystem){
+        this.levelSystem=levelSystem;
+        levelSystem.OnLevelChanged+=LevelSystem_OnLevelChanged;
+    }
+    private void LevelSystem_OnLevelChanged(object sender,System.EventArgs e){
+        //Level Up animation
+        Debug.Log("Level Up");
+    }
     private void SingleShoot()=>Instantiate(singleBullet,singleShootTransform.position,singleShootTransform.rotation);
     private void TripleShoot(){
         Instantiate(tripleBullet,tripleShootTransformRight.position,tripleShootTransformRight.rotation);
@@ -83,6 +99,10 @@ public class Player: MonoBehaviour
         Destroy(gameObject,3f);
     }
     private void OnDestroy() {
-         GameObject.FindObjectOfType<UI>().FinalScreen();
+       ui.FinalScreen();
     }
+    public LevelSystem Level(){
+        return this.levelSystem;
+    }
+
 }
