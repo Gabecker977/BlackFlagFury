@@ -28,10 +28,15 @@ public class Player: MonoBehaviour
     [SerializeField] private GameObject deathEffect;
     [Header("Level System")]
     [SerializeField] private UI ui;
+    [SerializeField,Range(0,100)] private int maxLevel;
     private LevelSystem levelSystem=new LevelSystem();
+    private LevelSystemAnimated levelSystemAnimated;
     private void Awake() {
        SetLevelSystem(levelSystem);
+       levelSystem.SetMaxLevel(maxLevel);
+       levelSystemAnimated=new LevelSystemAnimated(levelSystem);
        ui.SetLevelSystem(levelSystem);
+       ui.SetLevelSystemAnimated(levelSystemAnimated);
 
     }
     private void Start() {
@@ -61,6 +66,10 @@ public class Player: MonoBehaviour
             StartCoroutine(Wait(1/tripleShootfireRate));
         }
 
+        if(Input.GetKeyDown(KeyCode.Escape)){
+            ui.PauseAction();
+        }
+
         healthBar.fillAmount=life/100;
         if(life<=70&&life>30){
             sprite.sprite=deterioration[1];
@@ -71,6 +80,7 @@ public class Player: MonoBehaviour
             canMove=false;
          GameOver();
         }
+        levelSystemAnimated.Update();
     }
     private void SetLevelSystem(LevelSystem levelSystem){
         this.levelSystem=levelSystem;
@@ -78,7 +88,7 @@ public class Player: MonoBehaviour
     }
     private void LevelSystem_OnLevelChanged(object sender,System.EventArgs e){
         //Level Up animation
-        Debug.Log("Level Up");
+        life=100f;
     }
     private void SingleShoot()=>Instantiate(singleBullet,singleShootTransform.position,singleShootTransform.rotation);
     private void TripleShoot(){

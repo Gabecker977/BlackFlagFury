@@ -14,7 +14,11 @@ public class UI : MonoBehaviour
     [Header("Level Window")]
     [SerializeField] private Text levelText;
     [SerializeField] private Slider levelBar;
-    private LevelSystem levelSystem; 
+    [Header("Pause Window")]
+    [SerializeField] private GameObject pauseWindow;
+    private bool isPaused=false;
+    private LevelSystem levelSystem;
+    private LevelSystemAnimated levelSystemAnimated; 
     public int score{get;set;}
     float timer=60f;
     void Awake(){
@@ -44,23 +48,42 @@ public class UI : MonoBehaviour
     private void SetLevelNumber(int level){
         levelText.text="Level "+(level+1);
     }
-     public void SetLevelSystem(LevelSystem newLevelSystem){
+    public void SetLevelSystem(LevelSystem newLevelSystem){
         levelSystem=newLevelSystem;
+    }
+     public void SetLevelSystemAnimated(LevelSystemAnimated newLevelSystem){
+        levelSystemAnimated=newLevelSystem;
 
-        SetLevelNumber(levelSystem.GetLevelNumber());
-        SetExperienceBar(levelSystem.GetExperienceNormalized());
-        levelSystem.OnExperienceChanged+=LevelSystem_OnExperienceChanged;
-        levelSystem.OnLevelChanged+=LevelSystem_OnLevelChanged;
+        SetLevelNumber(levelSystemAnimated.GetLevelNumber());
+        SetExperienceBar(levelSystemAnimated.GetExperienceNormalized());
+        levelSystemAnimated.OnExperienceChanged+=LevelSystemAnimated_OnExperienceChanged;
+        levelSystemAnimated.OnLevelChanged+=LevelSystemAnimated_OnLevelChanged;
     }
-    private void LevelSystem_OnLevelChanged(object sender,System.EventArgs e){
-        SetLevelNumber(levelSystem.GetLevelNumber());
+    private void LevelSystemAnimated_OnLevelChanged(object sender,System.EventArgs e){
+        SetLevelNumber(levelSystemAnimated.GetLevelNumber());
     }
-    private void LevelSystem_OnExperienceChanged(object sender,System.EventArgs e){
-        SetExperienceBar(levelSystem.GetExperienceNormalized());
+    private void LevelSystemAnimated_OnExperienceChanged(object sender,System.EventArgs e){
+        SetExperienceBar(levelSystemAnimated.GetExperienceNormalized());
     }
 
     private string TimeToString(float seconds){
         return string.Format("{00:00}:{01:00}",Mathf.FloorToInt(seconds/60),Mathf.FloorToInt(seconds%60));
+    }
+    public void PauseAction(){
+        if(!isPaused){
+            Pause();
+        }else 
+            Resume();
+    }
+    private void Pause(){
+        isPaused=true;
+        Time.timeScale=0;
+        pauseWindow.SetActive(true);
+    }
+    private void Resume(){
+         isPaused=false;
+        Time.timeScale=1;
+        pauseWindow.SetActive(false);
     }
     public void FinalScreen(){
         scoreText.text="Total Score: "+score;

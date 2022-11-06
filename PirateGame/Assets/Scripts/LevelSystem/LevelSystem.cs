@@ -10,6 +10,7 @@ public class LevelSystem
     private int level;
     private float experience;
     private float experienceToNextLevel;
+    private int maxLevel=0;
 
     public LevelSystem(){
         level=0;
@@ -17,12 +18,14 @@ public class LevelSystem
         experienceToNextLevel=100f;
     }
     public void AddExperience(float amount){
-        experience+=amount;
-        while(experience>=experienceToNextLevel){
+        if(!IsMaxLevel()){
+            experience+=amount;
+        while(!IsMaxLevel()&&experience>=experienceToNextLevel){
             level++;
             experience-=experienceToNextLevel;
             experienceToNextLevel*=1.5f;
             if(OnLevelChanged!=null) OnLevelChanged(this,EventArgs.Empty);
+            }
         }
         if(OnExperienceChanged!=null) OnExperienceChanged(this,EventArgs.Empty);
     }
@@ -30,6 +33,9 @@ public class LevelSystem
         return level;
     }
    public float GetExperienceNormalized(){
+    if(IsMaxLevel())
+        return 1f;
+
     return experience/experienceToNextLevel;
    }
    public float GetExperience(){
@@ -38,4 +44,16 @@ public class LevelSystem
    public float GetExperienceToNextLevel(){
     return experienceToNextLevel;
    }
+   public bool IsMaxLevel(){
+    if(maxLevel!=0){
+        if(level>maxLevel){
+            Debug.Log(level);
+            return true;
+            }
+        }
+         return false;
+    }
+    public void SetMaxLevel(int maxLevel){
+        this.maxLevel=maxLevel;
+    }
 }
