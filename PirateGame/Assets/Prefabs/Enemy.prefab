@@ -142,7 +142,7 @@ MonoBehaviour:
   bulletSpawnPosition: {fileID: 3520833234087177713}
   timeToShoot: 1.5
   deathEffect: {fileID: 4555914138231277035, guid: dade090969ea6534bbcbac29cb10e497, type: 3}
-  experience: 500
+  experience: 50
 --- !u!50 &3520833235653860426
 Rigidbody2D:
   serializedVersion: 4
