@@ -18,13 +18,14 @@ public class Player: MonoBehaviour
     [SerializeField] private Transform tripleShootTransformLeft;
     [SerializeField] private Transform tripleShootTransformRight;
     [SerializeField,Range(0f,1f)] private float tripleShootfireRate;
-    private Image healthBar;
+    [SerializeField] Image healthBar;
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
     private bool canShoot=true;
     private bool canMove=true;
     [Header("Ship deterioration")]
     [SerializeField] private Sprite[] deterioration;
+    [SerializeField] private float[] healthThresholds = { 30f, 70f };
     [SerializeField] private GameObject deathEffect;
     [Header("Level System")]
     [SerializeField] private UI ui;
@@ -41,7 +42,7 @@ public class Player: MonoBehaviour
     }
     private void Start() {
         rb=GetComponent<Rigidbody2D>();
-        healthBar=GameObject.FindGameObjectWithTag("HealthBar").GetComponent<Image>();
+       // healthBar=GameObject.FindGameObjectWithTag("HealthBar").GetComponent<Image>();
         sprite=GetComponent<SpriteRenderer>();
     }
       void Update()
@@ -71,17 +72,22 @@ public class Player: MonoBehaviour
         }
 
         healthBar.fillAmount=life/100;
-        if(life<=70&&life>30){
-            sprite.sprite=deterioration[1];
-        }else if(life<=30&life>0){
-        sprite.sprite=deterioration[2];
-        }
-        else if(life<=0&&canMove){
+         if(life<=0){
             canMove=false;
          GameOver();
         }
         levelSystemAnimated.Update();
     }
+    private void UpdateSpriteBasedOnHealth() {
+        for (int i = 0; i < healthThresholds.Length; i++) {
+            if (life <= healthThresholds[i]) {
+                sprite.sprite = deterioration[i];
+                return;
+            }
+        }
+        sprite.sprite = deterioration[deterioration.Length - 1];
+}
+
     private void SetLevelSystem(LevelSystem levelSystem){
         this.levelSystem=levelSystem;
         levelSystem.OnLevelChanged+=LevelSystem_OnLevelChanged;
@@ -101,6 +107,7 @@ public class Player: MonoBehaviour
     }
     public void Damege(float damege){
         life-=damege;
+        UpdateSpriteBasedOnHealth();
     }
     private void GameOver(){
         rb.velocity=Vector2.zero;

@@ -893,9 +893,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Piratas Bolados
-
-'
+  m_Text: Black Flag Fury
 --- !u!222 &627103939
 CanvasRenderer:
   m_ObjectHideFlags: 0

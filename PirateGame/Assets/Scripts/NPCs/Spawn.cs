@@ -8,6 +8,14 @@ public class Spawn : MonoBehaviour
     [SerializeField,Range(0f,60f)] private float timeToSpawn=10f;
     private bool canSpawn=true;
     // Start is called before the first frame update
+    private void Awake() {
+        
+        foreach (Transform item in spawns)
+        {
+            item.GetComponent<SpriteRenderer>().enabled=false;
+        }
+    }
+    
     void Start()
     {
         if(GameSetting.instance!=null)

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(Rigidbody2D))]
 public class Enemy : MonoBehaviour
 {   [Header("Enemy Paremetres")]
     [SerializeField] private Type enemyType;
@@ -18,24 +18,27 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject deathEffect;
     [Header("Experience on death")]
     [SerializeField,Range(5f,500f)] private float experience;
-
+    private Rigidbody2D rb;
+    private UI ui;
 
     private enum Type{Chaser, Shooter}
     private bool canShoot=true;
 	void Start () {
 		if(enemyTarget==null)
             enemyTarget=GameObject.FindGameObjectWithTag("Player").transform;
-	}
+        rb=GetComponent<Rigidbody2D>();
+        ui= FindObjectOfType<UI>();
+    }
     private void Update() {
         if(life<=0){
             enemyTarget.GetComponent<Player>().Level().AddExperience(experience);
-            FindObjectOfType<UI>().score++;
+            ui.score++;
             Instantiate(deathEffect,transform.position,transform.rotation);
             Destroy(gameObject);
         }
     }
 	void LateUpdate () {
-		if(enemyTarget!=null){
+    	if(enemyTarget==null) return;
             Vector3 lookAtTarget = new Vector3(enemyTarget.position.x,enemyTarget.position.y, 
 			transform.position.z);
         Vector3 direction=lookAtTarget-this.transform.position;
@@ -50,7 +53,6 @@ public class Enemy : MonoBehaviour
             else
                 ShooterBehaviour();
             }
-        }
     }
     void CalculateAngle(Transform target){
         Vector3 forward=-transform.up;
@@ -69,15 +71,15 @@ public class Enemy : MonoBehaviour
         return new Vector3(xMult,yMult,zMult);
     }
     private void OnCollisionEnter2D(Collision2D other) {
-        if(other.collider.tag=="Player"&&enemyType.Equals(Type.Chaser)){
+        bool isPlayer=other.collider.CompareTag("Player");
+        if(isPlayer&&enemyType.Equals(Type.Chaser)){
         Instantiate(explosion,transform.position,Quaternion.identity);
         Destroy(gameObject);
         other.collider.GetComponent<Player>().Damege(50f);
         }
     }
     private void Chase(Transform target){
-        
-        GetComponent<Rigidbody2D>().velocity=-transform.up*speed;
+       rb.velocity=-transform.up*speed;
     }
     private void ShooterBehaviour(){
         if(canShoot){

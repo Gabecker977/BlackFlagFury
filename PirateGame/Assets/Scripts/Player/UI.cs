@@ -86,6 +86,7 @@ public class UI : MonoBehaviour
         pauseWindow.SetActive(false);
     }
     public void FinalScreen(){
+
         scoreText.text="Total Score: "+score;
         Time.timeScale=0;
         finalScreen.SetActive(true);
